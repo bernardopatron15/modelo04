@@ -145,10 +145,16 @@ async function abreCheckout(req, res) {
     }
 }
 
+function getCartItemCount(req) {
+    const carrinho = req.session.carrinho || { itens: [] };
+    return carrinho.itens.reduce((total, item) => total + item.quantidade, 0);
+}
+
 module.exports = {
     viewCart,
     addToCart,
     updateCart,
     removeFromCart,
-    abreCheckout
+    abreCheckout,
+    getCartItemCount
 };

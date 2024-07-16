@@ -3,6 +3,11 @@ const { body } = require('express-validator');
 const routes = express.Router();
 const carrinhoController = require('../controller/carrinhoController');
 
+routes.use((req, res, next) => {
+    res.locals.cartItemCount = carrinhoController.getCartItemCount(req);
+    next();
+});
+
 
 routes.get('/carrinho', carrinhoController.viewCart); // Visualizar o carrinho
 
