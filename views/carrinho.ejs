@@ -1,0 +1,94 @@
+<%- include('./cabecalho') %>
+
+<!-- BREADCRUMB -->
+<div id="breadcrumb" class="section">
+  <!-- container -->
+  <div class="container">
+    <!-- row -->
+    <div class="row">
+      <div class="col-md-12">
+        <h3 class="breadcrumb-header">Carrinho de Compras</h3>
+        <ul class="breadcrumb-tree">
+          <li><a href="/">Home</a></li>
+          <li class="active">Carrinho</li>
+        </ul>
+      </div>
+    </div>
+    <!-- /row -->
+  </div>
+  <!-- /container -->
+</div>
+<!-- /BREADCRUMB -->
+
+<!-- SECTION -->
+<div class="section">
+  <!-- container -->
+  <div class="container">
+    <!-- row -->
+    <div class="row">
+      <div class="col-md-12">
+        <div class="order-details">
+          <div class="section-title text-center">
+            <h3 class="title">Seu Carrinho</h3>
+          </div>
+          <div class="order-summary">
+            <div class="order-col">
+              <div><strong>PRODUTOS</strong></div>
+              <div><strong>TOTAL</strong></div>
+            </div>
+            <div class="order-products">
+              <% if (itensCarrinho.length > 0) { %>
+                <% itensCarrinho.forEach(item => { %>
+                  <div class="order-item">
+                    <div class="order-col">
+                      <div><%= item.produto.titulo %> (x<%= item.quantidade %>)</div>
+                      <div>R$<%= (item.preco * item.quantidade).toFixed(2) %></div>
+                    </div>
+                    <div class="order-col">
+                      <form method="post" action="/carrinho/remove" class="d-inline">
+                        <input type="hidden" name="produto_id" value="<%= item.produto._id %>">
+                        <button type="submit" class="btn btn-danger btn-sm">Remover</button>
+                      </form>
+                    </div>
+                  </div>
+                <% }) %>
+              <% } else { %>
+                <div class="order-col">
+                  <div>Seu carrinho está vazio</div>
+                </div>
+              <% } %>
+            </div>
+            <% if (itensCarrinho.length > 0) { %>
+              <div class="order-col">
+                <div>Frete</div>
+                <div><strong>Gratis</strong></div>
+              </div>
+              <div class="order-col">
+                <div><strong>TOTAL</strong></div>
+                <div><strong class="order-total">
+                  R$<%= total.toFixed(2) %>
+                </strong></div>
+              </div>
+            <% } %>
+          </div>
+          <% if (itensCarrinho.length > 0) { %>
+            <a href="/checkout" class="primary-btn order-submit">Finalizar Compra</a>
+          <% } %>
+          <a href="/home" class="primary-btn order-submit float-right">Voltar às Compras</a>
+        </div>
+      </div>
+    </div>
+    <!-- /row -->
+  </div>
+  <!-- /container -->
+</div>
+<!-- /SECTION -->
+
+<%- include('./rodape2') %>
+
+<!-- CSS adicional para separar os botões de remover verticalmente -->
+<style>
+  .order-item {
+    margin-bottom: 10px; /* Espaçamento entre os itens do carrinho */
+  }
+</style>

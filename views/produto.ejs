@@ -1,0 +1,161 @@
+<%-include('./cabecalho')-%>
+
+<!-- BREADCRUMB -->
+<div id="breadcrumb" class="section">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <ul class="breadcrumb-tree">
+          <li><a href="/home">Home</a></li>
+          <li><a href="#"><%= produto.categoria.titulo %></a></li>
+          <li class="active"><%= produto.titulo %></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- /BREADCRUMB -->
+
+<!-- SECTION -->
+<div class="section">
+  <div class="container">
+    <div class="row">
+      <!-- Product main img -->
+      <div class="col-md-7 col-md-push-1">
+        <div id="product-main-img">
+          <div class="product-preview">
+            <img src="/fotos/<%= produto.foto %>" alt="" class="product-image" />
+          </div>
+        </div>
+      </div>
+      <!-- /Product main img -->
+
+      <!-- Product details -->
+      <div class="col-md-5">
+        <div class="product-details">
+          <h2 class="product-name"><%= produto.titulo %></h2>
+          <div>
+            <div class="product-rating">
+              <% for (let i = 0; i < Math.floor(produto.mediaAvaliacao); i++) { %>
+                <i class="fa fa-star"></i>
+              <% } %>
+              <% for (let i = Math.floor(produto.mediaAvaliacao); i < 5; i++) { %>
+                <i class="fa fa-star-o"></i>
+              <% } %>
+            </div>
+          </div>
+          <div>
+            <h3 class="product-price">R$ <%= produto.preco %>,00
+              <del class="product-old-price">R$ <%= produto.precoantigo %>,00</del>
+            </h3>
+            <span class="product-available">em estoque</span>
+          </div>
+          <form action="/carrinho/add" method="POST" class="add-to-cart">
+            <div class="qty-label">
+              qtd
+              <div class="input-number">
+                <input type="number" name="quantidade" value="1" min="1" />
+                <span class="qty-up">+</span>
+                <span class="qty-down">-</span>
+              </div>
+            </div>
+            <input type="hidden" name="produto_id" value="<%= produto._id %>" />
+            <button type="submit" class="add-to-cart-btn">
+              <i class="fa fa-shopping-cart"></i> COMPRAR AGORA
+            </button>
+          </form>
+          <ul class="product-links">
+            <li>Categoria:</li>
+            <li><a href="/categoria/<%= produto.categoria._id %>/produtos#"><%= produto.categoria.titulo %></a></li>
+          </ul>
+          <ul class="product-links">
+            <li>Share:</li>
+            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+            <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+            <li><a href="#"><i class="fa fa-envelope"></i></a></li>
+          </ul>
+        </div>
+      </div>
+      <!-- /Product details -->
+
+      <!-- Product tab -->
+<div class="col-md-12">
+  <div id="product-tab">
+    <ul class="tab-nav">
+      <li class="active"><a data-toggle="tab" href="#tab1">Descrição</a></li>
+      <li><a data-toggle="tab" href="#tab3">Avaliações (<%= reviews.length %>)</a></li>
+    </ul>
+    <div class="tab-content">
+      <div id="tab1" class="tab-pane fade in active">
+        <div class="row">
+          <div class="col-md-12">
+            <p><%= produto.descricao %></p>
+          </div>
+        </div>
+      </div>
+      <div id="tab3" class="tab-pane fade in">
+        <div class="row">
+          <% if (reviews.length > 0) { %>
+            <% reviews.forEach(review => { %>
+              <div class="col-md-12">
+                <div id="reviews">
+                  <ul class="reviews">
+                    <li>
+                      <div class="review-heading">
+                        <h5 class="name"><%= review.nome %></h5>
+                        <!-- Exibir as estrelas ou outra forma de avaliação -->
+                        <% if (typeof usuario != "undefined" && usuario.admin) { %>
+                          <form action="/produto/<%= produto._id %>/remover-avaliacao/<%= review._id %>" method="POST">
+                            <button type="submit" class="btn btn-danger">Remover Avaliação</button>
+                          </form>
+                        <% } %>
+                      </div>
+                      <div class="review-body">
+                        <p><%= review.comentario %></p>
+                        <p><%= review.rating %> estrelas</p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            <% }); %>
+          <% } else { %>
+            <p>Ainda não há avaliações para este produto.</p>
+          <% } %>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div id="review-form">
+              <form class="review-form" method="post" action="/produto/<%= produto._id %>/review">
+                <input class="input" type="text" name="nome" placeholder="Seu Nome" />
+                <textarea class="input" name="comentario" placeholder="Sua Avaliação"></textarea>
+                <div class="input-rating">
+                  <span>Sua Nota: </span>
+                  <select class="stars" name="rating">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                  </select>
+                </div>
+                <button type="submit" class="primary-btn">Avaliar</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- /Product tab -->
+
+
+
+    </div>
+  </div>
+</div>
+<!-- /SECTION -->
+
+<%-include('./rodape2')-%>
