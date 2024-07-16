@@ -61,7 +61,7 @@ routes.get("/ajuda", controller.ajuda);
 // Rotas autenticadas
 routes.get("/logout", ensureAuthenticated, controller.logout);
 
-routes.get("/usuario/add", ensureAuthenticated, controller.abreadd);
+routes.get("/usuario/add",  controller.abreadd);
 
 routes.post("/usuario/add", ensureAuthenticated, upload.single("foto"), controller.add);
 
