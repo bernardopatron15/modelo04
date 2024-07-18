@@ -96,25 +96,19 @@ function abreedt(req, res) {
 function edt(req, res) {
   Produto.findById(req.params.id)
     .then(function (produto) {
-      let tempo = req.body.tempo;
-      let [hora, minuto] = tempo.split(":");
-      let data = new Date();
-      data.setHours(hora);
-      data.setMinutes(minuto);
-
+      
       produto.titulo = req.body.titulo;
       produto.descricao = req.body.descricao;
       produto.categoria = req.body.categoria; // Aqui você deve associar pelo ID da categoria
       produto.preco = req.body.preco;
       produto.precoantigo = req.body.precoantigo;
-      produto.foto = req.body.foto;
+      produto.foto = req.file.filename;
 
-      return produto.save();
-    })
-    .then(function () {
+      produto.save();
       res.redirect("/produto/lst");
     })
     .catch(function (err) {
+      console.log("Error: " + err)
       res.send(err);
     });
 }
