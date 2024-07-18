@@ -80,82 +80,100 @@
       <!-- /Product details -->
 
       <!-- Product tab -->
-<div class="col-md-12">
-  <div id="product-tab">
-    <ul class="tab-nav">
-      <li class="active"><a data-toggle="tab" href="#tab1">Descrição</a></li>
-      <li><a data-toggle="tab" href="#tab3">Avaliações (<%= reviews.length %>)</a></li>
-    </ul>
-    <div class="tab-content">
-      <div id="tab1" class="tab-pane fade in active">
-        <div class="row">
-          <div class="col-md-12">
-            <p><%= produto.descricao %></p>
-          </div>
-        </div>
-      </div>
-      <div id="tab3" class="tab-pane fade in">
-        <div class="row">
-          <% if (reviews.length > 0) { %>
-            <% reviews.forEach(review => { %>
-              <div class="col-md-12">
-                <div id="reviews">
-                  <ul class="reviews">
-                    <li>
-                      <div class="review-heading">
-                        <h5 class="name"><%= review.nome %></h5>
-                        <!-- Exibir as estrelas ou outra forma de avaliação -->
-                        <% if (typeof usuario != "undefined" && usuario.admin) { %>
-                          <form action="/produto/<%= produto._id %>/remover-avaliacao/<%= review._id %>" method="POST">
-                            <button type="submit" class="btn btn-danger">Remover Avaliação</button>
-                          </form>
-                        <% } %>
-                      </div>
-                      <div class="review-body">
-                        <p><%= review.comentario %></p>
-                        <p><%= review.rating %> estrelas</p>
-                      </div>
-                    </li>
-                  </ul>
+      <div class="col-md-12">
+        <div id="product-tab">
+          <ul class="tab-nav">
+            <li class="active"><a data-toggle="tab" href="#tab1">Descrição</a></li>
+            <li><a data-toggle="tab" href="#tab3">Avaliações (<%= reviews.length %>)</a></li>
+          </ul>
+          <div class="tab-content">
+            <div id="tab1" class="tab-pane fade in active">
+              <div class="row">
+                <div class="col-md-12">
+                  <p><%= produto.descricao %></p>
                 </div>
               </div>
-            <% }); %>
-          <% } else { %>
-            <p>Ainda não há avaliações para este produto.</p>
-          <% } %>
-        </div>
-        <div class="row">
-          <div class="col-md-12">
-            <div id="review-form">
-              <form class="review-form" method="post" action="/produto/<%= produto._id %>/review">
-                <input class="input" type="text" name="nome" placeholder="Seu Nome" />
-                <textarea class="input" name="comentario" placeholder="Sua Avaliação"></textarea>
-                <div class="input-rating">
-                  <span>Sua Nota: </span>
-                  <select class="stars" name="rating">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                  </select>
+            </div>
+            <div id="tab3" class="tab-pane fade in">
+              <div class="row">
+                <% if (reviews.length > 0) { %>
+                  <% reviews.forEach(review => { %>
+                    <div class="col-md-12">
+                      <div id="reviews">
+                        <ul class="reviews">
+                          <li>
+                            <div class="review-heading">
+                              <h5 class="name"><%= review.nome %></h5>
+                              <!-- Exibir as estrelas ou outra forma de avaliação -->
+                              <% if (typeof usuario != "undefined" && usuario.admin) { %>
+                                <form action="/produto/<%= produto._id %>/remover-avaliacao/<%= review._id %>" method="POST">
+                                  <button type="submit" class="btn btn-danger">Remover Avaliação</button>
+                                </form>
+                              <% } %>
+                            </div>
+                            <div class="review-body">
+                              <p><%= review.comentario %></p>
+                              <p><%= review.rating %> estrelas</p>
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  <% }); %>
+                <% } else { %>
+                  <p>Ainda não há avaliações para este produto.</p>
+                <% } %>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div id="review-form">
+                    <form class="review-form" method="post" action="/produto/<%= produto._id %>/review">
+                      <input class="input" type="text" name="nome" placeholder="Seu Nome" />
+                      <textarea class="input" name="comentario" placeholder="Sua Avaliação"></textarea>
+                      <div class="input-rating">
+                        <span>Sua Nota: </span>
+                        <div class="stars" id="rating">
+                          <input type="radio" name="rating" id="star5" value="5" /><label for="star5"></label>
+                          <input type="radio" name="rating" id="star4" value="4" /><label for="star4"></label>
+                          <input type="radio" name="rating" id="star3" value="3" /><label for="star3"></label>
+                          <input type="radio" name="rating" id="star2" value="2" /><label for="star2"></label>
+                          <input type="radio" name="rating" id="star1" value="1" /><label for="star1"></label>
+                        </div>
+                      </div>
+                      <button type="submit" class="primary-btn">Avaliar</button>
+                    </form>
+                  </div>
                 </div>
-                <button type="submit" class="primary-btn">Avaliar</button>
-              </form>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </div>
-</div>
-<!-- /Product tab -->
-
-
-
+      <!-- /Product tab -->
     </div>
   </div>
 </div>
 <!-- /SECTION -->
 
 <%-include('./rodape2')-%>
+
+<style>
+  .stars {
+    display: inline-block;
+  }
+  .stars input[type="radio"] {
+    display: none;
+  }
+  .stars label {
+    font-size: 20px;
+    color: #ddd;
+    cursor: pointer;
+  }
+  .stars label:hover,
+  .stars label:hover ~ label {
+    color: #f2b600;
+  }
+  .stars input[type="radio"]:checked ~ label {
+    color: #f2b600;
+  }
+</style>

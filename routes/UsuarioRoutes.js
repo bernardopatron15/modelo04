@@ -63,7 +63,7 @@ routes.get("/logout", ensureAuthenticated, controller.logout);
 
 routes.get("/usuario/add",  controller.abreadd);
 
-routes.post("/usuario/add", ensureAuthenticated, upload.single("foto"), controller.add);
+routes.post("/usuario/add", upload.single("foto"), controller.add);
 
 routes.get("/usuario/lst",adm, ensureAuthenticated, controller.listar);
 

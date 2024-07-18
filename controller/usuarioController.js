@@ -279,7 +279,7 @@ function add(req, res) {
     if (err) {
       res.send(err);
     } else {
-      res.redirect("/usuario/add");
+      res.redirect("/");
     }
   });
 }
