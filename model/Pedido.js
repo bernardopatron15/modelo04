@@ -1,6 +1,7 @@
 const conexao = require('../config/conexao');
+const Schema = conexao.Schema;
 
-let PedidoSchema = new conexao.Schema({
+let PedidoSchema = new Schema({
     usuario: { type: conexao.Schema.Types.ObjectId, ref: 'Usuario' },
     nome: String,
     cpf: String,
@@ -9,8 +10,12 @@ let PedidoSchema = new conexao.Schema({
     cidade: String,
     cep: String,
     celular: String,
-    produto: { type: conexao.Schema.Types.ObjectId, ref: 'Produto' },
-    createdAt: { type: Date, default: Date.now } // Adicionando campo createdAt com valor padrão de data atual
+    produtos: [{
+        produto: { type: conexao.Schema.Types.ObjectId, ref: 'Produto' },
+        quantidade: { type: Number, required: true },
+        preco: { type: Number, required: true }
+    }],
+    createdAt: { type: Date, default: Date.now }
 });
 
 module.exports = conexao.model("Pedido", PedidoSchema);

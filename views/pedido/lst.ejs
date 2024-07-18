@@ -10,7 +10,7 @@
         <thead class="thead-dark">
             <tr>
                 <th scope="col">ID do Pedido</th>
-                <th scope="col">Produto</th>
+                <th scope="col">Produtos</th>
                 <th scope="col">Preço (R$)</th>
                 <th scope="col">Cliente</th>
                 <th scope="col">Contato</th>
@@ -22,13 +22,12 @@
             <% Pedidos.forEach(function(pedido) { %>
             <tr>
                 <td class="align-middle"><%= pedido._id %></td>
-                <% if (pedido.produto) { %>
-                    <td class="align-middle"><%= pedido.produto.titulo %></td> <!-- Nome do produto -->
-                    <td class="align-middle">R$ <%= pedido.produto.preco.toFixed(2) %></td> <!-- Preço do produto formatado -->
-                <% } else { %>
-                    <td class="align-middle">Não especificado</td>
-                    <td class="align-middle">-</td>
-                <% } %>
+                <td class="align-middle">
+                  <% pedido.produtos.forEach(item => { %>
+                    <div><%= item.produto.titulo %> (x<%= item.quantidade %>)</div>
+                  <% }) %>
+                </td>
+                <td class="align-middle">R$ <%= pedido.total.toFixed(2) %></td>
                 <td class="align-middle">
                     <p><strong><%= pedido.nome %></strong></p>
                     <p>CPF: <%= pedido.cpf %></p>
@@ -58,8 +57,10 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <p><strong>Produto:</strong> <%= pedido.produto ? pedido.produto.titulo : 'Não especificado' %></p>
-                            <p><strong>Preço:</strong> <%= pedido.produto ? 'R$ ' + pedido.produto.preco.toFixed(2) : '-' %></p>
+                            <% pedido.produtos.forEach(item => { %>
+                              <p><strong>Produto:</strong> <%= item.produto.titulo %> (x<%= item.quantidade %>)</p>
+                            <% }) %>
+                            <p><strong>Preço Total:</strong> R$ <%= pedido.total.toFixed(2) %></p>
                             <p><strong>Cliente:</strong> <%= pedido.nome %></p>
                             <p><strong>CPF:</strong> <%= pedido.cpf %></p>
                             <p><strong>Email:</strong> <%= pedido.email %></p>

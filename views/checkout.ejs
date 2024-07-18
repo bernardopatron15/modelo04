@@ -88,6 +88,7 @@
               <% if (itensCarrinho.length > 0) { %>
                 <% itensCarrinho.forEach(item => { %>
                   <div class="order-col">
+                    
                     <div><%= item.produto.titulo %> (x<%= item.quantidade %>)</div>
                     <div>R$<%= (item.preco * item.quantidade).toFixed(2) %></div>
                   </div>
