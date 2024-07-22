@@ -29,21 +29,20 @@ routes.post(
 
 // Rota para logout
 routes.get("/logout", (req, res) => {
-  req.logout(() => {
-    res.redirect("/home"); // Redireciona para a página inicial após o logout
-  });
+  req.session = null;
+  res.redirect("/home");
 });
 
 // Rotas de usuário
-routes.get("/adm/add",adm, admcontroller.abreadd);
+routes.get("/adm/add", adm, admcontroller.abreadd);
 routes.post("/adm/add", upload.single("foto"), admcontroller.add);
 
-routes.get("/adm/lst",adm, admcontroller.listar);
+routes.get("/adm/lst", adm, admcontroller.listar);
 routes.post("/adm/lst", controller.filtrar);
 
-routes.get("/adm/edt/:id",adm, controller.abreedt);
+routes.get("/adm/edt/:id", adm, controller.abreedt);
 routes.post("/adm/edt/:id", upload.single("foto"), controller.edt);
 
-routes.get("/adm/del/:id",adm, controller.del);
+routes.get("/adm/del/:id", adm, controller.del);
 
 module.exports = routes;

@@ -377,7 +377,7 @@ async function listarPedidos(req, res) {
 }
 
 function logout(req, res) {
-  res.redirect("/home");
+  console.log("OI");
 }
 
 module.exports = {
