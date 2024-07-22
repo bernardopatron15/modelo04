@@ -18,8 +18,16 @@
                 <% pedidos.forEach(function(pedido) { %>
                 <tr>
                     <td class="align-middle"><%= pedido._id %></td>
-                    <td class="align-middle"><%= pedido.produto ? pedido.produto.titulo : 'Não especificado' %></td>
-                    <td class="align-middle">R$ <%= pedido.produto ? pedido.produto.preco.toFixed(2) : '-' %></td>
+                    <td class="align-middle">
+                        <% pedido.produtos.forEach(item => { %>
+                          <div><%= item.produto.titulo %> (x<%= item.quantidade %>)</div>
+                        <% }) %>
+                      </td>
+                      <td class="align-middle">
+                        <% pedido.produtos.forEach(item => { %>
+                          <div><%= item.produto.preco.toFixed(2) %></div>
+                        <% }) %>
+                      </td>
                     <td class="align-middle"><%= pedido.createdAt ? pedido.createdAt.toLocaleDateString() : 'Data não disponível' %></td>
                 </tr>
                 <% }) %>
