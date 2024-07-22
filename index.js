@@ -12,7 +12,7 @@ app.use(
   session({
     secret: "keyboard cat",
     resave: false,
-    saveUninitialized: falsenpm install cookie-session,
+    saveUninitialized: false,
   })
 );
 
