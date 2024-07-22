@@ -3,7 +3,8 @@ const path = require("path");
 const app = express();
 const port = process.env.PORT || 3000;
 const passport = require("passport");
-const session = require("express-session");
+//const session = require("express-session");
+const session = require("cookie-session");
 const flash = require("connect-flash"); // Adicionado o connect-flash
 
 // Configuração da sessão
@@ -11,7 +12,7 @@ app.use(
   session({
     secret: "keyboard cat",
     resave: false,
-    saveUninitialized: false,
+    saveUninitialized: falsenpm install cookie-session,
   })
 );
 
