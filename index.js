@@ -2,18 +2,20 @@ const express = require("express");
 const path = require("path");
 const app = express();
 const port = process.env.PORT || 3000;
-const passport = require('passport');
-const session = require('express-session');
-const flash = require('connect-flash');  // Adicionado o connect-flash
+const passport = require("passport");
+const session = require("express-session");
+const flash = require("connect-flash"); // Adicionado o connect-flash
 
 // Configuração da sessão
-app.use(session({
-  secret: "keyboard cat",
-  resave: false,
-  saveUninitialized: false,
-}));
+app.use(
+  session({
+    secret: "keyboard cat",
+    resave: false,
+    saveUninitialized: false,
+  })
+);
 
-app.use(flash());  // Usar o middleware flash
+app.use(flash()); // Usar o middleware flash
 
 // Inicialização do Passport
 app.use(passport.initialize());
@@ -27,6 +29,8 @@ app.set("view engine", "ejs");
 
 // Definição do diretório de arquivos estáticos
 app.use(express.static(path.join(__dirname, "public")));
+
+app.set("views", __dirname + "/views");
 
 // Importação das rotas
 const admroutes = require("./routes/AdmRoutes");
@@ -44,7 +48,7 @@ app.use(produtoroutes);
 app.use(usuarioroutes);
 app.use(pedidoRoutes);
 app.use(categoriaRoutes);
- // Usar as rotas do carrinho
+// Usar as rotas do carrinho
 
 // Inicialização do servidor
 app.listen(port, function () {
